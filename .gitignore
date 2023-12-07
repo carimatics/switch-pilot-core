@@ -1,0 +1,10 @@
+# virtual environment
+venv
+build
+*.egg-info
+
+# JetBrains IDEs
+.idea
+
+# macOS
+.DS_Store

@@ -1,0 +1,18 @@
+[project]
+name = "switch-pilot-core"
+dynamic = ["version"]
+license = { file = "LICENSE" }
+authors = [
+    { name = "carimatics" },
+]
+requires-python = ">= 3.12"
+dependencies = [
+    "opencv-python==4.8.1.78",
+    "pygame == 2.5.2",
+    "pyserial==3.5",
+    "pydantic==2.5.2",
+]
+
+[project.urls]
+Homepage = "https://github.com/carimatics/switch-pilot-core.git"
+Repository = "https://github.com/carimatics/switch-pilot-core.git"
