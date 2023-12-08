@@ -3,8 +3,10 @@ import os
 from typing import Optional
 
 import cv2
+from easyocr import easyocr
+import numpy as np
 
-from .region import ImageRegion
+from switch_pilot_core.image.region import ImageRegion
 
 
 class Image:
@@ -52,3 +54,18 @@ class Image:
 
     def is_contained_in(self, other: 'Image', threshold: float) -> bool:
         return other.contains(self, threshold)
+
+    def contains_text(self, target_text: str, threshold: float = 0.8, langs: Optional[list[str]] = None) -> bool:
+        results = self.detect_text(threshold=threshold, langs=langs)
+        for result in results:
+            if target_text in result[0]:
+                return True
+        return False
+
+    def detect_text(self, threshold: float = 0.8, langs: Optional[list[str]] = None) -> list[tuple[str, float]]:
+        if langs is None or len(langs) == 0:
+            langs = ['ja', 'en']
+        reader = easyocr.Reader(langs)
+        image_array = np.asarray(self._mat[:, :])
+        results = reader.readtext(image=image_array)
+        return [(result[1], result[2]) for result in results if result[2] >= threshold]
