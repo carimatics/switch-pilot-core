@@ -29,6 +29,12 @@ class Image:
             flags = cv2.IMREAD_COLOR
         return Image(cv2.imread(filename=file_path, flags=flags))
 
+    @staticmethod
+    def get_text_reader(langs: Optional[list[str]] = None) -> easyocr.Reader:
+        if langs is None or len(langs) == 0:
+            langs = ['ja', 'en']
+        return easyocr.Reader(langs)
+
     def save(self, file_path: str) -> bool:
         ext = os.path.splitext(file_path)[1]
         result, n = cv2.imencode(ext, self._mat)
@@ -55,17 +61,23 @@ class Image:
     def is_contained_in(self, other: 'Image', threshold: float) -> bool:
         return other.contains(self, threshold)
 
-    def contains_text(self, target_text: str, threshold: float = 0.8, langs: Optional[list[str]] = None) -> bool:
-        results = self.detect_text(threshold=threshold, langs=langs)
+    def contains_text(self,
+                      target_text: str,
+                      threshold: float = 0.8,
+                      reader: Optional[easyocr.Reader] = None,
+                      langs: Optional[list[str]] = None) -> bool:
+        results = self.detect_text(threshold=threshold, reader=reader, langs=langs)
         for result in results:
             if target_text in result[0]:
                 return True
         return False
 
-    def detect_text(self, threshold: float = 0.8, langs: Optional[list[str]] = None) -> list[tuple[str, float]]:
-        if langs is None or len(langs) == 0:
-            langs = ['ja', 'en']
-        reader = easyocr.Reader(langs)
-        image_array = np.asarray(self._mat[:, :])
-        results = reader.readtext(image=image_array)
+    def detect_text(self,
+                    threshold: float = 0.8,
+                    reader: Optional[easyocr.Reader] = None,
+                    langs: Optional[list[str]] = None) -> list[tuple[str, float]]:
+        if reader is None:
+            reader = self.get_text_reader(langs=langs)
+
+        results = reader.readtext(image=np.asarray(self._mat[:, :]))
         return [(result[1], result[2]) for result in results if result[2] >= threshold]
