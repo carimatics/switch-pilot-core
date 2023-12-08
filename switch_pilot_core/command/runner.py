@@ -38,14 +38,13 @@ class CommandRunner:
         try:
             command.process()
         finally:
-            command.stop()
+            command.postprocess()
 
             on_finish = self._on_finish
             if on_finish is not None:
                 on_finish()
             self._on_finish = None
 
-            command.postprocess()
             self.command = None
 
     def stop(self):
