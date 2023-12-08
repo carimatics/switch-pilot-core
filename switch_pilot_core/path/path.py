@@ -71,7 +71,7 @@ class Path:
     def _normalize_file_name(name: Optional[str] = None) -> str:
         if name is None or name == "":
             now = datetime.now()
-            return f"{now.strftime("%Y-%m-%d_%H-%M-%S-%f")}.png"
+            return f"{now.strftime('%Y-%m-%d_%H-%M-%S-%f')}.png"
 
         if not name.endswith(".png"):
             return f"{name}.png"
