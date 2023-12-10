@@ -246,7 +246,7 @@ class BaseCommand(metaclass=ABCMeta):
         return self.detect_text(region=region, threshold=threshold)
 
     def detect_textbox_text(self, threshold: float = 0.9):
-        region = self.image.create_region(x=(0.27, 0.72), y=(0.76, 0.87))
+        region = self.image.create_region(x=(0.26, 0.722), y=(0.76, 0.87))
         return self.detect_text(region=region, threshold=threshold)
 
     def detect_text(self, region: ImageRegion = None, threshold: float = 0.9):
