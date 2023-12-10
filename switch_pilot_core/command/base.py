@@ -26,6 +26,7 @@ def check_should_keep_running(f):
 class BaseCommand(metaclass=ABCMeta):
     def __init__(self, api: CommandAPI):
         self._api = api
+        self.text_reader = None
         self.should_keep_running = False
         self.is_alive = False
 
@@ -84,6 +85,7 @@ class BaseCommand(metaclass=ABCMeta):
     def preprocess(self):
         self.api.extensions.prepare(self)
         self.timer.start()
+        self.text_reader = self.image.create_text_reader()
         self.should_keep_running = True
         self.is_alive = True
 
@@ -94,111 +96,105 @@ class BaseCommand(metaclass=ABCMeta):
     def stop(self):
         self.should_keep_running = False
 
-    @check_should_keep_running
-    def send_a(self, duration: float = 0.1):
+    def send_a(self, duration: float = 0.1, wait: float = 0.1):
         self.controller.send_one_shot(buttons=[Button.A],
                                       duration=duration)
+        self.wait(duration=wait)
 
-    @check_should_keep_running
-    def send_b(self, duration: float = 0.1):
+    def send_b(self, duration: float = 0.1, wait: float = 0.1):
         self.controller.send_one_shot(buttons=[Button.B],
                                       duration=duration)
+        self.wait(duration=wait)
 
-    @check_should_keep_running
-    def send_x(self, duration: float = 0.1):
+    def send_x(self, duration: float = 0.1, wait: float = 0.1):
         self.controller.send_one_shot(buttons=[Button.X],
                                       duration=duration)
+        self.wait(duration=wait)
 
-    @check_should_keep_running
-    def send_y(self, duration: float = 0.1):
+    def send_y(self, duration: float = 0.1, wait: float = 0.1):
         self.controller.send_one_shot(buttons=[Button.Y],
                                       duration=duration)
+        self.wait(duration=wait)
 
-    @check_should_keep_running
-    def send_l(self, duration: float = 0.1):
+    def send_l(self, duration: float = 0.1, wait: float = 0.1):
         self.controller.send_one_shot(buttons=[Button.L],
                                       duration=duration)
+        self.wait(duration=wait)
 
-    @check_should_keep_running
-    def send_r(self, duration: float = 0.1):
+    def send_r(self, duration: float = 0.1, wait: float = 0.1):
         self.controller.send_one_shot(buttons=[Button.R],
                                       duration=duration)
+        self.wait(duration=wait)
 
-    @check_should_keep_running
-    def send_zl(self, duration: float = 0.1):
+    def send_zl(self, duration: float = 0.1, wait: float = 0.1):
         self.controller.send_one_shot(buttons=[Button.ZL],
                                       duration=duration)
+        self.wait(duration=wait)
 
-    @check_should_keep_running
-    def send_zr(self, duration: float = 0.1):
+    def send_zr(self, duration: float = 0.1, wait: float = 0.1):
         self.controller.send_one_shot(buttons=[Button.ZR],
                                       duration=duration)
+        self.wait(duration=wait)
 
-    @check_should_keep_running
-    def send_plus(self, duration: float = 0.1):
+    def send_plus(self, duration: float = 0.1, wait: float = 0.1):
         self.controller.send_one_shot(buttons=[Button.PLUS],
                                       duration=duration)
+        self.wait(duration=wait)
 
-    @check_should_keep_running
-    def send_minus(self, duration: float = 0.1):
+    def send_minus(self, duration: float = 0.1, wait: float = 0.1):
         self.controller.send_one_shot(buttons=[Button.MINUS],
                                       duration=duration)
+        self.wait(duration=wait)
 
-    @check_should_keep_running
-    def send_home(self, duration: float = 0.1):
+    def send_home(self, duration: float = 0.1, wait: float = 0.1):
         self.controller.send_one_shot(buttons=[Button.HOME],
                                       duration=duration)
+        self.wait(duration=wait)
 
-    @check_should_keep_running
-    def send_capture(self, duration: float = 0.1):
+    def send_capture(self, duration: float = 0.1, wait: float = 0.1):
         self.controller.send_one_shot(buttons=[Button.CAPTURE],
                                       duration=duration)
+        self.wait(duration=wait)
 
-    @check_should_keep_running
-    def send_hat_top(self, duration: float = 0.1):
+    def send_hat_top(self, duration: float = 0.1, wait: float = 0.1):
         self.controller.send_one_shot(hat=Hat.TOP,
                                       duration=duration)
+        self.wait(duration=wait)
 
-    @check_should_keep_running
-    def send_hat_bottom(self, duration: float = 0.1):
+    def send_hat_bottom(self, duration: float = 0.1, wait: float = 0.1):
         self.controller.send_one_shot(hat=Hat.BOTTOM,
                                       duration=duration)
+        self.wait(duration=wait)
 
-    @check_should_keep_running
-    def send_hat_left(self, duration: float = 0.1):
+    def send_hat_left(self, duration: float = 0.1, wait: float = 0.1):
         self.controller.send_one_shot(hat=Hat.LEFT,
                                       duration=duration)
+        self.wait(duration=wait)
 
-    @check_should_keep_running
-    def send_hat_right(self, duration: float = 0.1):
+    def send_hat_right(self, duration: float = 0.1, wait: float = 0.1):
         self.controller.send_one_shot(hat=Hat.RIGHT,
                                       duration=duration)
+        self.wait(duration=wait)
 
-    @check_should_keep_running
     def send_right(self, duration: float = 0.1):
         self.controller.send_one_shot(l_displacement=StickDisplacementPreset.RIGHT,
                                       duration=duration)
 
-    @check_should_keep_running
     def send_left(self, duration: float = 0.1):
         self.controller.send_one_shot(l_displacement=StickDisplacementPreset.LEFT,
                                       duration=duration)
 
-    @check_should_keep_running
     def send_up(self, duration: float = 0.1):
         self.controller.send_one_shot(l_displacement=StickDisplacementPreset.TOP,
                                       duration=duration)
 
-    @check_should_keep_running
     def send_down(self, duration: float = 0.1):
         self.controller.send_one_shot(l_displacement=StickDisplacementPreset.BOTTOM,
                                       duration=duration)
 
-    @check_should_keep_running
     def screenshot(self, region: Optional[ImageRegion] = None):
         self.video.capture(region=region)
 
-    @check_should_keep_running
     def time_leap(self,
                   years: int = 0,
                   months: int = 0,
@@ -219,7 +215,6 @@ class BaseCommand(metaclass=ABCMeta):
     def attempt(self):
         self.extensions.attempt()
 
-    @check_should_keep_running
     def wait(self, duration: float, check_interval: float = 1.0):
         self.extensions.wait(duration=duration,
                              check_interval=check_interval)
@@ -228,7 +223,31 @@ class BaseCommand(metaclass=ABCMeta):
     def goto_home(self):
         self.extensions.goto_home()
 
-    @check_should_keep_running
+    def guide_contains_text(self, text: str, threshold: float = 0.9) -> bool:
+        region = self.image.create_region(x=(0.25, 0.651), y=(0.022, 0.063))
+        return self.contains_text(text=text, region=region, threshold=threshold)
+
+    def textbox_contains_text(self, text: str, threshold: float = 0.9) -> bool:
+        region = self.image.create_region(x=(0.27, 0.72), y=(0.76, 0.87))
+        return self.contains_text(text=text, region=region, threshold=threshold)
+
+    def contains_text(self, text: str, region: ImageRegion = None, threshold: float = 0.9) -> bool:
+        return self.video.get_current_frame(region=region).contains_text(text,
+                                                                         reader=self.text_reader,
+                                                                         threshold=threshold)
+
+    def detect_guide_text(self, threshold: float = 0.9):
+        region = self.image.create_region(x=(0.25, 0.651), y=(0.022, 0.063))
+        return self.detect_text(region=region, threshold=threshold)
+
+    def detect_textbox_text(self, threshold: float = 0.9):
+        region = self.image.create_region(x=(0.27, 0.72), y=(0.76, 0.87))
+        return self.detect_text(region=region, threshold=threshold)
+
+    def detect_text(self, region: ImageRegion = None, threshold: float = 0.9):
+        return self.video.get_current_frame(region=region).detect_text(reader=self.text_reader,
+                                                                       threshold=threshold)
+
     def get_recognition(self, buttons: Optional[list[Button]] = None):
         if buttons is None:
             self.extensions.get_recognition(buttons=[Button.ZL])
