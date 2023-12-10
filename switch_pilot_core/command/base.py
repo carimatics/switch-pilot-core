@@ -176,24 +176,29 @@ class BaseCommand(metaclass=ABCMeta):
                                       duration=duration)
         self.wait(duration=wait)
 
-    def send_right(self, duration: float = 0.1):
+    def send_right(self, duration: float = 0.1, wait: float = 0.1):
         self.controller.send_one_shot(l_displacement=StickDisplacementPreset.RIGHT,
                                       duration=duration)
+        self.wait(duration=wait)
 
-    def send_left(self, duration: float = 0.1):
+    def send_left(self, duration: float = 0.1, wait: float = 0.1):
         self.controller.send_one_shot(l_displacement=StickDisplacementPreset.LEFT,
                                       duration=duration)
+        self.wait(duration=wait)
 
-    def send_up(self, duration: float = 0.1):
+    def send_up(self, duration: float = 0.1, wait: float = 0.1):
         self.controller.send_one_shot(l_displacement=StickDisplacementPreset.TOP,
                                       duration=duration)
+        self.wait(duration=wait)
 
-    def send_down(self, duration: float = 0.1):
+    def send_down(self, duration: float = 0.1, wait: float = 0.1):
         self.controller.send_one_shot(l_displacement=StickDisplacementPreset.BOTTOM,
                                       duration=duration)
+        self.wait(duration=wait)
 
-    def screenshot(self, region: Optional[ImageRegion] = None):
+    def screenshot(self, region: Optional[ImageRegion] = None, wait: float = 0.1):
         self.video.capture(region=region)
+        self.wait(duration=wait)
 
     def time_leap(self,
                   years: int = 0,
